@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>LinkedIn Scraper</title>
-  <link rel="stylesheet" href="popup.css" />
+  <title>CleverBits Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      width: 250px;
+    }
+
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #24BDFB;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>LinkedIn Scraper</h1>
-
-    <label for="keyword">Keyword</label>
-    <input type="text" id="keyword" placeholder="Enter keyword" />
-
-    <label for="count">Post Count</label>
-    <input type="number" id="count" placeholder="Number of posts" />
-
-    <button id="submitBtn">Open LinkedIn Search</button>
-    <button id="startBtn" class="primary">Start Scraping</button>
-
-    <hr />
-
-    <label for="csvUpload">Upload CSV (URL, Message)</label>
-    <input type="file" id="csvUpload" accept=".csv" />
-    <button id="processCsvBtn">Open URLs from CSV</button>
-  </div>
-
-  <script src="popup.js"></script>
+  <h3>Login to continue</h3>
+  <button id="login">Login</button>
+  <script src="login.js"></script>
 </body>
+
 </html>

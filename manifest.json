@@ -1,17 +1,30 @@
 {
-  "manifest_version": 3,
-  "name": "LinkedIn Lead Magnet by Cleverbits.AI",
+  "name": "LinkedIn Scraper",
   "version": "1.0",
-  "permissions": ["tabs", "scripting", "storage", "downloads"],
-  "host_permissions": ["https://www.linkedin.com/*"],
+  "manifest_version": 3,
   "action": {
+    "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
+  "permissions": ["storage", "tabs", "scripting", "downloads"],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "http://localhost:5173/*",
+    "http://localhost:3000/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [{
-    "matches": ["https://www.linkedin.com/*"],
-    "js": ["content.js"]
-  }]
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*", "http://localhost:5173/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["scraper.html", "popup.html", "icon.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

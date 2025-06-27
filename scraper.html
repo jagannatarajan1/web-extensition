@@ -1,0 +1,34 @@
+<!-- scraper.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scraper Page</title>
+    <link rel="stylesheet" href="popup.css" />
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>LinkedIn Scraper</h1>
+
+        <label for="keyword">Keyword</label>
+        <input type="text" id="keyword" placeholder="Enter keyword" />
+
+        <label for="count">Post Count</label>
+        <input type="number" id="count" placeholder="Number of posts" />
+
+        <button id="submitBtn">Open LinkedIn Search</button>
+        <button id="startBtn" class="primary">Start Scraping</button>
+
+        <hr />
+
+        <label for="csvUpload">Upload CSV (URL, Message)</label>
+        <input type="file" id="csvUpload" accept=".csv" />
+        <button id="processCsvBtn">Open URLs from CSV</button>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
