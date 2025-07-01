@@ -1,57 +1,3 @@
-// document.getElementById("login").addEventListener("click", () => {
-//   const dashboardURL = "http://localhost:5173"; // React dashboard/login
-//   const backendVerifyURL = "http://localhost:3000/payment/verify";
-
-//   chrome.tabs.create({ url: dashboardURL });
-//   // 1️⃣ Get token from chrome.storage.local
-
-//   // 2️⃣ Send token to backend for verification
-//   function verifyToken(token) {
-//     console.log("🔍 Verifying token with backend...");
-
-//     fetch(backendVerifyURL, {
-//       method: "GET",
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     })
-//       .then(async (res) => {
-//         if (!res.ok) {
-//           const text = await res.text();
-//           throw new Error(`HTTP ${res.status} - ${text}`);
-//         }
-//         return res.json();
-//       })
-//       .then((data) => {
-//         console.log("📨 Backend response:", data);
-
-//         if (data?.isSubscribed) {
-//           console.log("✅ Token valid. Opening scraper.");
-//           chrome.action.setPopup({ popup: "scraper.html" });
-//           window.location.href = "scraper.html";
-//         } else {
-//           console.warn("⚠️ Token valid, but not subscribed.");
-//         }
-//       })
-//       .catch((err) => {
-//         console.error("🚨 Verification error:", err);
-//       });
-//   }
-// });
-
-// function init() {
-//   chrome.storage.local.get("accessToken", ({ accessToken }) => {
-//     if (accessToken) {
-//       console.log("✅ Token from chrome.storage.local:", accessToken);
-//       verifyToken(accessToken);
-//     } else {
-//       console.warn("❌ No token found in chrome.storage.local");
-//     }
-//   });
-// }
-
-// init();
-
 const TARGET_URL = "http://localhost:5173";
 
 // The function to be injected into the leadmagnet page
@@ -72,6 +18,7 @@ function injectAndFetch(tabId, closeAfter = false) {
       if (message.token) {
         console.log("✅ accessToken:", message.token);
         // chrome.action.setPopup({ popup: "scraper.html" });
+        localStorage.setItem("accessToken", message.token);
         window.location.href = "scraper.html";
       } else {
         console.warn("⚠️ accessToken not found");
@@ -101,5 +48,24 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         }
       });
     });
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOMContentLoaded event triggered."); // Debugging log
+  const loginButton = document.getElementById("login");
+
+  if (loginButton) {
+    console.log("Login button found."); // Debugging log
+    loginButton.addEventListener("click", () => {
+      console.log("Login button clicked, redirecting to target URL...");
+
+      // Redirect using chrome.tabs.update
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const currentTab = tabs[0];
+        chrome.tabs.update(currentTab.id, { url: TARGET_URL });
+      });
+    });
+  } else {
+    console.error("Login button not found!"); // Error log
   }
 });

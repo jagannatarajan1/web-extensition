@@ -32,3 +32,101 @@
 </body>
 
 </html>
+
+
+<!-- const TARGET_URL = "http://localhost:5173";
+const BACKEND_VERIFY_URL = "http://localhost:3000/payment/verify";
+
+// Fetch the access token from the target URL's localStorage
+function fetchAuthToken() {
+  const token = localStorage.getItem("accessToken");
+  chrome.runtime.sendMessage({ from: "content", token: token || null });
+}
+
+// Inject fetchAuthToken script into the tab
+function injectAndFetch(tabId, closeAfter = false) {
+  chrome.scripting.executeScript({
+    target: { tabId },
+    func: fetchAuthToken,
+  });
+
+  chrome.runtime.onMessage.addListener(function listener(message, sender) {
+    if (message.from === "content") {
+      if (message.token) {
+        console.log("✅ Token found:", message.token);
+        verifyToken(message.token); // Pass token to verification
+      } else {
+        console.warn("⚠️ No token found in target URL's localStorage.");
+        openPopup();
+      }
+
+      chrome.runtime.onMessage.removeListener(listener);
+      if (closeAfter) chrome.tabs.remove(tabId);
+    }
+  });
+}
+
+// Verify the token with the backend API
+function verifyToken(token) {
+  console.log("🔍 Verifying token with backend...");
+  fetch(BACKEND_VERIFY_URL, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`HTTP ${res.status} - ${text}`);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log("📨 Backend response:", data);
+      if (data?.isSubscribed) {
+        console.log("✅ Token valid. Opening scraper.html...");
+        openScraper();
+      } else {
+        console.warn("⚠️ Token valid, but user not subscribed.");
+        openPopup();
+      }
+    })
+    .catch((err) => {
+      console.error("🚨 Verification error:", err);
+      openPopup();
+    });
+}
+
+// Open scraper.html
+function openScraper() {
+  chrome.action.setPopup({ popup: "scraper.html" });
+  window.location.href = "scraper.html";
+}
+
+// Open popup.html
+function openPopup() {
+  chrome.action.setPopup({ popup: "popup.html" });
+  window.location.href = "popup.html";
+}
+
+// Main logic triggered on popup open
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  const currentTab = tabs[0];
+  if (currentTab.url && currentTab.url.startsWith(TARGET_URL)) {
+    injectAndFetch(currentTab.id);
+  } else {
+    chrome.tabs.create({ url: TARGET_URL, active: false }, (newTab) => {
+      chrome.tabs.onUpdated.addListener(function tabListener(tabId, info) {
+        if (tabId === newTab.id && info.status === "complete") {
+          chrome.tabs.onUpdated.removeListener(tabListener);
+          injectAndFetch(tabId, true); // Inject and close the tab after fetching the token
+        }
+      });
+    });
+  }
+});
+
+// Add a click event listener for the login button in popup.html
+document.getElementById("login").addEventListener("click", () => {
+  chrome.tabs.create({ url: TARGET_URL });
+});
+ -->
