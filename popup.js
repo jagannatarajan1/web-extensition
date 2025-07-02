@@ -190,6 +190,16 @@ document.getElementById("startBtn").addEventListener("click", () => {
 
 //   reader.readAsText(file);
 // });
+
+const fileInput = document.getElementById("csvUpload");
+
+fileInput.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+fileInput.addEventListener("change", (e) => {
+  e.stopPropagation();
+});
+
 document.getElementById("processCsvBtn").addEventListener("click", () => {
   const fileInput = document.getElementById("csvUpload");
   const file = fileInput.files[0];

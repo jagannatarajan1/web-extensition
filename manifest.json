@@ -15,8 +15,7 @@
     "notifications",
     "scripting",
     "downloads",
-    "webRequest",
-    "http://localhost:5173/"
+    "webRequest"
   ],
 
   "host_permissions": [
